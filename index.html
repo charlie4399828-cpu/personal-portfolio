@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <!-- ===== Favicon（相对路径，兼容 GitHub Pages 子路径部署） ===== -->
+    <link rel="icon" href="./favicon.ico" sizes="32x32" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+    <link rel="manifest" href="./site.webmanifest" />
+    <meta name="theme-color" content="#F25516" />
+
+    <!-- ===== 基础 SEO（静态可爬取，SPA 无 SSR 时尤为重要） ===== -->
+    <title>陈以默 · 互联网+电商前端开发工程师 | 个人作品集</title>
+    <meta
+      name="description"
+      content="陈以默的个人作品集：6 年互联网电商前端经验，专注大促营销会场、性能优化、数据驱动增长与电商中台。Vue3 + TypeScript 技术栈，全屏交互式作品展示。"
+    />
+    <meta
+      name="keywords"
+      content="个人作品集,前端开发工程师,互联网,电商,电商前端,大促会场,Vue3,TypeScript,Arco Design,性能优化,数据可视化"
+    />
+    <meta name="author" content="陈以默" />
+    <meta name="robots" content="index, follow" />
+    <meta name="application-name" content="个人作品集 · 互联网+电商" />
+    <link rel="canonical" href="%VITE_SITE_URL%/" />
+
+    <!-- ===== Open Graph（社交平台分享卡片） ===== -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="个人作品集 · 互联网+电商" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:title" content="陈以默 · 互联网+电商前端开发工程师 | 个人作品集" />
+    <meta
+      property="og:description"
+      content="6 年互联网电商前端经验，专注大促营销会场、性能优化与数据驱动增长。全屏交互式作品展示。"
+    />
+    <meta property="og:url" content="%VITE_SITE_URL%/" />
+    <meta property="og:image" content="%VITE_SITE_URL%/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="个人作品集 · 互联网+电商" />
+
+    <!-- ===== Twitter Card ===== -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="陈以默 · 互联网+电商前端开发工程师" />
+    <meta
+      name="twitter:description"
+      content="6 年互联网电商前端经验，专注大促营销会场、性能优化与数据驱动增长。"
+    />
+    <meta name="twitter:image" content="%VITE_SITE_URL%/og-image.jpg" />
+
+    <!-- ===== 结构化数据（搜索引擎富摘要；静态信息，更换个人资料时请同步修改） ===== -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "name": "陈以默 · 个人作品集",
+            "description": "互联网+电商方向前端开发工程师个人作品集",
+            "url": "%VITE_SITE_URL%/",
+            "inLanguage": "zh-CN"
+          },
+          {
+            "@type": "Person",
+            "name": "陈以默",
+            "jobTitle": "高级前端开发工程师 · 电商方向",
+            "url": "%VITE_SITE_URL%/",
+            "knowsAbout": ["Vue3", "TypeScript", "电商前端", "性能优化", "数据可视化"],
+            "sameAs": ["https://github.com/yourname"]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

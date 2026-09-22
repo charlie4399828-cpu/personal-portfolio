@@ -1,0 +1,127 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Arco Design 主题定制：将默认蓝替换为电商橙（arco 使用 RGB 三元组变量，1-5 浅 / 6 主色 / 7-10 深） */
+:root {
+  --primary-1: 255, 247, 232;
+  --primary-2: 255, 233, 210;
+  --primary-3: 255, 211, 172;
+  --primary-4: 255, 181, 120;
+  --primary-5: 255, 144, 73;
+  --primary-6: 242, 85, 22;
+  --primary-7: 199, 62, 14;
+  --primary-8: 156, 48, 14;
+  --primary-9: 126, 38, 11;
+  --primary-10: 97, 29, 9;
+}
+
+html,
+body {
+  height: 100%;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgba(242, 85, 22, 0.18);
+}
+
+/* 每屏通用布局（fullpage 会把内容包进滚动容器，min-h 保证超出一屏时可滚动） */
+.section-shell {
+  @apply flex min-h-screen w-full items-center justify-center px-5 py-10 md:px-14 lg:px-20;
+}
+
+.section-eyebrow {
+  @apply mb-2 text-[11px] font-semibold uppercase tracking-[0.35em] text-brand-500;
+}
+
+.section-title {
+  @apply text-2xl font-bold text-gray-900 md:text-4xl;
+}
+
+/* 首屏渐变背景 */
+.hero-bg {
+  background:
+    radial-gradient(1200px 500px at 80% -10%, rgba(242, 85, 22, 0.08), transparent),
+    radial-gradient(900px 420px at 10% 110%, rgba(255, 144, 73, 0.1), transparent);
+}
+
+/* 交替屏浅色底 */
+.section-alt {
+  background-color: #faf8f6;
+}
+
+/* 底部屏深色底 */
+.section-dark {
+  background: linear-gradient(160deg, #201a17 0%, #2b211b 55%, #362417 100%);
+}
+
+/* Arco 组件个性化微调 */
+.brand-tag {
+  @apply !rounded-md !border-brand-100 !bg-brand-50 !text-brand-600;
+}
+
+.icon-box {
+  @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-lg text-brand-500;
+}
+
+.metric-card {
+  @apply !rounded-xl text-center transition-shadow hover:shadow-md;
+}
+
+.strength-card {
+  @apply !rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-md;
+}
+
+.work-card {
+  @apply !rounded-xl transition-all hover:-translate-y-1 hover:shadow-lg;
+}
+
+.contact-chip {
+  @apply inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs text-white/80 transition-colors hover:border-brand-300/60 hover:text-brand-200;
+}
+
+.social-btn {
+  @apply !rounded-lg !border-white/20 !bg-white/5 !text-white/80;
+}
+.social-btn:hover {
+  @apply !border-brand-300 !text-brand-200;
+}
+
+/* 每屏进场动画：fullpage 会为当前屏添加 .active */
+.section .reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
+}
+.section.active .reveal {
+  opacity: 1;
+  transform: none;
+}
+.reveal-d1 {
+  transition-delay: 0.12s;
+}
+.reveal-d2 {
+  transition-delay: 0.22s;
+}
+.reveal-d3 {
+  transition-delay: 0.32s;
+}
+.reveal-d4 {
+  transition-delay: 0.42s;
+}
+
+/* fullpage 侧边圆点导航使用主题色 */
+#fp-nav ul li a span,
+.fp-slidesNav ul li a span {
+  background: rgba(242, 85, 22, 0.35) !important;
+}
+#fp-nav ul li a.active span,
+#fp-nav ul li:hover a.active span {
+  background: #f25516 !important;
+}

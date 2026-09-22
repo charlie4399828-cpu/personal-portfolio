@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  站点地图：部署后请将下方 loc 替换为真实站点地址（自定义域名或 Pages 地址）。
+  本站为全屏滚动单页，仅包含一个稳定 URL；接口渲染的内容更新无需改动本文件。
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://yourname.github.io/portfolio/</loc>
+    <lastmod>2026-09-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>
