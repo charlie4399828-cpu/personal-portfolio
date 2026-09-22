@@ -40,7 +40,7 @@
       }
     ],
     "skills": [
-      { "name": "Vue3 / TypeScript", "percent": 95, "tag": "主力栈" },
+      { "name": "Vue3 / TypeScript", "percent": 95, "tags": ["主力栈"] },
       { "name": "电商营销页面架构", "percent": 92 },
       { "name": "前端工程化 / 性能优化", "percent": 88 },
       { "name": "数据可视化", "percent": 85 },

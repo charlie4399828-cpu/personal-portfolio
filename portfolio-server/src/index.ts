@@ -53,8 +53,10 @@ app.use(authMiddleware)
  */
 function toWebPortfolioData(admin: any): any {
   const b = admin.basicInfo || {}
-  const strengths = (admin.advantages || []).filter((a: any) => a.group === 'strength')
-  const skills = (admin.advantages || []).filter((a: any) => a.group === 'skill')
+  // 过滤掉标记为 hidden 的项，前端不展示
+  const visible = (arr: any[]) => (arr || []).filter((x: any) => !x.hidden)
+  const strengths = visible((admin.advantages || []).filter((a: any) => a.group === 'strength'))
+  const skills = visible((admin.advantages || []).filter((a: any) => a.group === 'skill'))
 
   return {
     profile: {
@@ -78,10 +80,10 @@ function toWebPortfolioData(admin: any): any {
       skills: skills.map((s: any) => ({
         name: s.title,
         percent: s.percent ?? 0,
-        tag: s.tag
+        tags: s.tags || []
       }))
     },
-    experiences: (admin.projects || []).map((p: any) => ({
+    experiences: visible(admin.projects || []).map((p: any) => ({
       period: p.period,
       role: p.role,
       name: p.name,
@@ -89,7 +91,7 @@ function toWebPortfolioData(admin: any): any {
       achievements: p.achievements || [],
       tags: p.tags || []
     })),
-    works: (admin.works || []).map((w: any) => ({
+    works: visible(admin.works || []).map((w: any) => ({
       title: w.title,
       subtitle: w.subtitle,
       description: w.description,

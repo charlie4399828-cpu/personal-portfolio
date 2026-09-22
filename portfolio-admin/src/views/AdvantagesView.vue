@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Button, Message } from '@arco-design/web-vue'
+import { Button, Message, Checkbox } from '@arco-design/web-vue'
 import { usePortfolioPage } from '@/composables/usePortfolioPage'
 import type { AdvantageItem } from '@/types/portfolio'
 
@@ -17,7 +17,7 @@ function add(group: 'strength' | 'skill') {
     description: '',
     icon: 'icon-star',
     percent: group === 'skill' ? 80 : undefined,
-    tag: ''
+    tags: []
   }
   data.value?.advantages.push(newItem)
 }
@@ -27,8 +27,16 @@ function remove(id?: string) {
   data.value.advantages = data.value.advantages.filter((a) => a.id !== id)
 }
 
+function addSkillTag(item: AdvantageItem) {
+  item.tags = item.tags ?? []
+  item.tags.push('')
+}
+
 async function handleSave() {
   if (!data.value) return
+  data.value.advantages.forEach((a) => {
+    if (a.tags) a.tags = a.tags.filter((t) => t)
+  })
   const ok = await save({ advantages: data.value.advantages })
   if (ok) Message.success('已保存')
 }
@@ -62,7 +70,8 @@ async function handleSave() {
                 <a-input v-model="item.icon" placeholder="图标名" style="width: 140px" />
               </div>
               <a-textarea v-model="item.description" :auto-size="{ minRows: 2, maxRows: 4 }" placeholder="描述" />
-              <div class="mt-2 text-right">
+              <div class="mt-2 flex items-center justify-between">
+                <a-checkbox v-model="item.hidden" :un-checked-value="false">前端隐藏</a-checkbox>
                 <a-button type="text" status="danger" size="mini" @click="remove(item.id)">删除</a-button>
               </div>
             </div>
@@ -83,11 +92,19 @@ async function handleSave() {
                 <a-input v-model="item.title" placeholder="技能名称" class="flex-1" />
                 <a-input-number v-model="item.percent" :min="0" :max="100" style="width: 100px" />
               </div>
-              <div class="mb-2 flex gap-2">
-                <a-input v-model="item.tag" placeholder="标签（可选）" />
+              <div>
+                <div class="mb-1 text-xs text-gray-500">标签</div>
+                <a-space direction="vertical" fill>
+                  <div v-for="(_, ti) in item.tags ?? []" :key="ti" class="flex gap-2">
+                    <a-input v-model="(item.tags as string[])[ti]" placeholder="标签名称" class="flex-1" />
+                    <a-button type="text" status="danger" size="mini" @click="(item.tags as string[]).splice(ti, 1)">×</a-button>
+                  </div>
+                </a-space>
+                <a-button class="mt-1" type="text" size="mini" @click="addSkillTag(item)">+ 标签</a-button>
               </div>
               <a-progress :percent="item.percent || 0" :show-text="false" color="#F25516" />
-              <div class="mt-2 text-right">
+              <div class="mt-2 flex items-center justify-between">
+                <a-checkbox v-model="item.hidden" :un-checked-value="false">前端隐藏</a-checkbox>
                 <a-button type="text" status="danger" size="mini" @click="remove(item.id)">删除</a-button>
               </div>
             </div>

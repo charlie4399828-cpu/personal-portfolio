@@ -93,7 +93,7 @@ const mockPortfolioData = {
         description: '沉淀电商营销组件库与 CI/CD 流水线，团队研发效率提升 40%。',
         icon: 'icon-code'
       },
-      { id: 's1', group: 'skill', title: 'Vue3 / TypeScript', description: '', percent: 95, tag: '主力栈' },
+      { id: 's1', group: 'skill', title: 'Vue3 / TypeScript', description: '', percent: 95, tags: ['主力栈'] },
       { id: 's2', group: 'skill', title: '电商营销页面架构', description: '', percent: 92 },
       { id: 's3', group: 'skill', title: '前端工程化 / 性能优化', description: '', percent: 88 },
       { id: 's4', group: 'skill', title: '数据可视化', description: '', percent: 85 },

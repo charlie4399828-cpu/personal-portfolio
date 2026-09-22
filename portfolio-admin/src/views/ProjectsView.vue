@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Button, Message } from '@arco-design/web-vue'
+import { Button, Message, Checkbox } from '@arco-design/web-vue'
 import { usePortfolioPage } from '@/composables/usePortfolioPage'
 import type { ProjectItem } from '@/types/portfolio'
 
@@ -63,6 +63,7 @@ async function handleSave() {
           <a-input v-model="item.period" placeholder="时间段（如 2022.03 - 至今）" style="width: 240px" />
           <a-input v-model="item.role" placeholder="职位" style="width: 220px" />
           <a-input v-model="item.name" placeholder="公司 / 项目名" class="flex-1" />
+          <a-checkbox v-model="item.hidden" :un-checked-value="false" class="self-center">隐藏</a-checkbox>
           <a-button type="text" status="danger" @click="remove(item.id)">删除</a-button>
         </div>
         <div class="mt-3 flex gap-2">

@@ -26,7 +26,7 @@ export const DEFAULT_PORTFOLIO_DATA = {
     { id: 'a2', group: 'strength', title: '性能与体验优化', description: '首屏秒开、资源按需加载与动效降级策略，核心页面 LCP 降至 1.5s 以内。', icon: 'icon-fire' },
     { id: 'a3', group: 'strength', title: '数据驱动增长', description: '搭建埋点体系与 A/B 实验闭环，用数据量化每一次改版的转化收益。', icon: 'icon-bar-chart' },
     { id: 'a4', group: 'strength', title: '组件化与工程化', description: '沉淀电商营销组件库与 CI/CD 流水线，团队研发效率提升 40%。', icon: 'icon-code' },
-    { id: 's1', group: 'skill', title: 'Vue3 / TypeScript', description: '', percent: 95, tag: '主力栈' },
+    { id: 's1', group: 'skill', title: 'Vue3 / TypeScript', description: '', percent: 95, tags: ['主力栈'] },
     { id: 's2', group: 'skill', title: '电商营销页面架构', description: '', percent: 92 },
     { id: 's3', group: 'skill', title: '前端工程化 / 性能优化', description: '', percent: 88 },
     { id: 's4', group: 'skill', title: '数据可视化', description: '', percent: 85 },

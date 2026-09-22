@@ -34,7 +34,7 @@ export interface Strength {
 export interface Skill {
   name: string
   percent: number
-  tag?: string
+  tags?: string[]
 }
 
 /** 第二屏：优势模块聚合 */

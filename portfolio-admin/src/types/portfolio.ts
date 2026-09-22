@@ -42,7 +42,10 @@ export interface AdvantageItem {
   group: 'strength' | 'skill'
   /** group=skill 时必填 */
   percent?: number
-  tag?: string
+  /** 标签列表（可编辑多项） */
+  tags?: string[]
+  /** 是否在前端隐藏 */
+  hidden?: boolean
 }
 
 /** 项目经历（对应前端 ProjectExperience，后台字段名统一） */
@@ -55,6 +58,8 @@ export interface ProjectItem {
   achievements?: string[]
   tags?: string[]
   coverUrl?: string
+  /** 是否在前端隐藏 */
+  hidden?: boolean
 }
 
 /** 作品案例 */
@@ -68,6 +73,8 @@ export interface WorkItem {
   metrics?: Metric[]
   tags?: string[]
   link?: string
+  /** 是否在前端隐藏 */
+  hidden?: boolean
 }
 
 /** 联系方式 */

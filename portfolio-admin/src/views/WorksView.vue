@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Button, Message } from '@arco-design/web-vue'
+import { Button, Message, Checkbox } from '@arco-design/web-vue'
 import { usePortfolioPage } from '@/composables/usePortfolioPage'
 import type { WorkItem } from '@/types/portfolio'
 
@@ -60,6 +60,7 @@ async function handleSave() {
         <a-card class="mb-4 page-card" :bordered="false">
           <div class="flex gap-2">
             <a-input v-model="item.title" placeholder="标题" class="flex-1" />
+            <a-checkbox v-model="item.hidden" :un-checked-value="false" class="self-center">隐藏</a-checkbox>
             <a-button type="text" status="danger" size="mini" @click="remove(item.id)">删</a-button>
           </div>
           <div class="mt-2 flex gap-2">
