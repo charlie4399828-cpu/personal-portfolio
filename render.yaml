@@ -1,0 +1,27 @@
+# Render Blueprint —— 作品集后端 API
+# 一键部署：https://render.com/deploy?repo=https://github.com/charlie4399828-cpu/personal-portfolio
+#
+# 说明：
+# - 免费层磁盘随实例回收，SQLite 数据会在重新部署时重置并自动重新播种（admin/admin123）
+# - 如需持久化数据，在 Render 面板添加 Disk，挂载到 /var/data 并设置环境变量 DB_PATH=/var/data/portfolio.db
+services:
+  - type: web
+    name: portfolio-server
+    runtime: node
+    plan: free
+    region: singapore
+    rootDir: portfolio-server
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: CORS_ORIGIN
+        value: https://charlie4399828-cpu.github.io
+      # 部署向导会提示输入：请设置你的后台登录密码（首次播种生效，明文留空则为默认 admin123）
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: PASSWORD_SALT
+        generateValue: true
