@@ -85,6 +85,16 @@ export interface SiteSettings {
   worksVisible?: boolean
 }
 
+/** SEO 配置：由后台管理，主站加载后动态写入 document.title 和 meta 标签 */
+export interface SeoConfig {
+  siteName: string
+  title: string
+  description: string
+  keywords: string[]
+  author?: string
+  ogImage?: string
+}
+
 /** 站点全部内容：接口唯一返回结构（后端按此结构返回 JSON 即可） */
 export interface PortfolioData {
   profile: Profile
@@ -93,4 +103,5 @@ export interface PortfolioData {
   works: WorkItem[]
   contact: ContactInfo
   settings?: SiteSettings
+  seo?: SeoConfig
 }

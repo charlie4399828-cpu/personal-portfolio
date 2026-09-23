@@ -128,7 +128,8 @@ function toWebPortfolioData(admin: any): any {
     contact: admin.contact || {},
     settings: {
       worksVisible: admin.settings?.worksVisible === true
-    }
+    },
+    seo: admin.seo || {}
   }
 }
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import { usePortfolioData } from '@/composables/usePortfolioData'
 import SectionHero from '@/components/SectionHero.vue'
 import SectionStrengths from '@/components/SectionStrengths.vue'
@@ -30,6 +30,37 @@ const fpOptions = computed(() => {
     credits: { enabled: false }
   }
 })
+
+/**
+ * SEO 动态注入：接口返回 seo 字段后，实时更新浏览器标签页 title 与 meta 标签
+ * 解决后台修改 SEO 配置后前端标签页 title 不更新的问题
+ */
+function upsertMeta(attr: 'name' | 'property', key: string, content: string) {
+  if (!content) return
+  let el = document.head.querySelector<HTMLMetaElement>(`meta[${attr}="${key}"]`)
+  if (!el) {
+    el = document.createElement('meta')
+    el.setAttribute(attr, key)
+    document.head.appendChild(el)
+  }
+  el.setAttribute('content', content)
+}
+
+watch(
+  () => data.value?.seo,
+  (seo) => {
+    if (!seo) return
+    if (seo.title) document.title = seo.title
+    upsertMeta('name', 'description', seo.description || '')
+    upsertMeta('name', 'keywords', (seo.keywords || []).join(', '))
+    upsertMeta('name', 'author', seo.author || '')
+    upsertMeta('property', 'og:title', seo.title || '')
+    upsertMeta('property', 'og:description', seo.description || '')
+    upsertMeta('property', 'og:site_name', seo.siteName || '')
+    if (seo.ogImage) upsertMeta('property', 'og:image', seo.ogImage)
+  },
+  { immediate: true }
+)
 </script>
 
 <template>
