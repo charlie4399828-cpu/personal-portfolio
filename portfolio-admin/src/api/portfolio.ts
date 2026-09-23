@@ -3,7 +3,10 @@ import { request, put } from './request'
 import type { PortfolioData } from '@/types/portfolio'
 
 /** 构建 mock 响应：当 baseURL 为 /mock/api 时拦截请求 */
-function mockFallback<T>(realFetch: () => Promise<T>, mockKey: keyof typeof mockPortfolioData): Promise<T> {
+function mockFallback<T>(
+  realFetch: () => Promise<T>,
+  mockKey: keyof typeof mockPortfolioData
+): Promise<T> {
   if (API_BASE_URL === '/mock/api') {
     // 深拷贝避免修改原始数据
     return Promise.resolve(JSON.parse(JSON.stringify(mockPortfolioData[mockKey])) as T)
@@ -13,10 +16,7 @@ function mockFallback<T>(realFetch: () => Promise<T>, mockKey: keyof typeof mock
 
 /** 读取全部数据 */
 export function fetchPortfolio(): Promise<PortfolioData> {
-  return mockFallback(
-    () => request<PortfolioData>(ENDPOINTS.portfolio),
-    'full'
-  )
+  return mockFallback(() => request<PortfolioData>(ENDPOINTS.portfolio), 'full')
 }
 
 /** 保存全部数据（全量 PUT） */
@@ -93,7 +93,14 @@ const mockPortfolioData = {
         description: '沉淀电商营销组件库与 CI/CD 流水线，团队研发效率提升 40%。',
         icon: 'icon-code'
       },
-      { id: 's1', group: 'skill', title: 'Vue3 / TypeScript', description: '', percent: 95, tags: ['主力栈'] },
+      {
+        id: 's1',
+        group: 'skill',
+        title: 'Vue3 / TypeScript',
+        description: '',
+        percent: 95,
+        tag: '主力栈'
+      },
       { id: 's2', group: 'skill', title: '电商营销页面架构', description: '', percent: 92 },
       { id: 's3', group: 'skill', title: '前端工程化 / 性能优化', description: '', percent: 88 },
       { id: 's4', group: 'skill', title: '数据可视化', description: '', percent: 85 },
@@ -120,7 +127,10 @@ const mockPortfolioData = {
         role: '前端开发工程师',
         name: '某新零售电商平台',
         description: '负责 H5 商城与小程序核心链路开发，覆盖首页、商品详情、购物车与下单页。',
-        achievements: ['重构下单链路，下单转化率提升 12%', '小程序包体积优化 45%，启动耗时降低 38%'],
+        achievements: [
+          '重构下单链路，下单转化率提升 12%',
+          '小程序包体积优化 45%，启动耗时降低 38%'
+        ],
         tags: ['小程序', 'H5 商城', '交易链路'],
         coverUrl: ''
       },
@@ -140,7 +150,8 @@ const mockPortfolioData = {
         id: 'w1',
         title: '双 11 主会场',
         subtitle: '亿级 PV 互动营销页面',
-        description: '面向大促主会场的模块化页面方案，支持楼层动态编排、互动玩法热插拔与全链路降级。',
+        description:
+          '面向大促主会场的模块化页面方案，支持楼层动态编排、互动玩法热插拔与全链路降级。',
         imageUrl: '',
         themeColor: '#F25516',
         metrics: [
@@ -209,9 +220,6 @@ const mockPortfolioData = {
     seo: {
       siteName: '陈以默 · 个人作品集',
       title: '陈以默 · 互联网+电商前端开发工程师 | 个人作品集',
-      description:
-        '陈以默的个人作品集：6 年互联网电商前端经验，专注大促营销会场、性能优化、数据驱动增长与电商中台。',
-      keywords: ['个人作品集', '前端开发工程师', '互联网', '电商前端', 'Vue3', 'TypeScript'],
       author: '陈以默',
       ogImage: './og-image.jpg'
     },
@@ -220,6 +228,9 @@ const mockPortfolioData = {
       appleIconUrl: './apple-touch-icon.png',
       android192Url: './android-chrome-192x192.png',
       android512Url: './android-chrome-512x512.png'
+    },
+    settings: {
+      worksVisible: false
     }
   }
 }

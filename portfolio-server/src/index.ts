@@ -3,6 +3,32 @@ import express, { Request, Response, NextFunction } from 'express'
 import cors from 'cors'
 import { getAdminByUsername, verifyAdminPassword, getPortfolio, savePortfolio } from './db'
 import { generateToken, verifyToken, revokeToken } from './tokens'
+import { DEFAULT_PORTFOLIO_DATA } from './seed'
+
+/**
+ * 深度合并：将 patch 合并进 base。
+ * - 数组：直接用 patch 的值替换（页面提交的是完整数组）
+ * - 普通对象：递归合并，保留 base 中未被 patch 覆盖的字段
+ * - 基本类型：patch 的值胜出
+ * 这样即便前端只提交 { advantages: [...] }，projects / works 等其它字段也会被完整保留。
+ */
+function deepMerge(base: any, patch: any): any {
+  if (patch === null || patch === undefined) return base
+  if (Array.isArray(patch)) return patch
+  if (
+    typeof patch === 'object' &&
+    typeof base === 'object' &&
+    base !== null &&
+    !Array.isArray(base)
+  ) {
+    const merged: Record<string, any> = { ...base }
+    for (const key of Object.keys(patch)) {
+      merged[key] = key in base ? deepMerge(base[key], patch[key]) : patch[key]
+    }
+    return merged
+  }
+  return patch
+}
 
 const PORT = Number(process.env.PORT) || 3000
 const CORS_ORIGIN = process.env.CORS_ORIGIN || '*'
@@ -48,15 +74,13 @@ app.use(authMiddleware)
 
 /**
  * 字段名转换：admin PortfolioData → 主站期望结构
- * admin: basicInfo / advantages(group=strength|skill) / projects / works / contact / seo / favicon
- * web:  profile / strengthSection / experiences / works / contact
+ * admin: basicInfo / advantages(group=strength|skill) / projects / works / contact / seo / favicon / settings
+ * web:  profile / strengthSection / experiences / works / contact / settings
  */
 function toWebPortfolioData(admin: any): any {
   const b = admin.basicInfo || {}
-  // 过滤掉标记为 hidden 的项，前端不展示
-  const visible = (arr: any[]) => (arr || []).filter((x: any) => !x.hidden)
-  const strengths = visible((admin.advantages || []).filter((a: any) => a.group === 'strength'))
-  const skills = visible((admin.advantages || []).filter((a: any) => a.group === 'skill'))
+  const strengths = (admin.advantages || []).filter((a: any) => a.group === 'strength')
+  const skills = (admin.advantages || []).filter((a: any) => a.group === 'skill')
 
   return {
     profile: {
@@ -80,10 +104,10 @@ function toWebPortfolioData(admin: any): any {
       skills: skills.map((s: any) => ({
         name: s.title,
         percent: s.percent ?? 0,
-        tags: s.tags || []
+        tag: s.tag
       }))
     },
-    experiences: visible(admin.projects || []).map((p: any) => ({
+    experiences: (admin.projects || []).map((p: any) => ({
       period: p.period,
       role: p.role,
       name: p.name,
@@ -91,7 +115,7 @@ function toWebPortfolioData(admin: any): any {
       achievements: p.achievements || [],
       tags: p.tags || []
     })),
-    works: visible(admin.works || []).map((w: any) => ({
+    works: (admin.works || []).map((w: any) => ({
       title: w.title,
       subtitle: w.subtitle,
       description: w.description,
@@ -101,7 +125,10 @@ function toWebPortfolioData(admin: any): any {
       tags: w.tags || [],
       link: w.link
     })),
-    contact: admin.contact || {}
+    contact: admin.contact || {},
+    settings: {
+      worksVisible: admin.settings?.worksVisible === true
+    }
   }
 }
 
@@ -158,7 +185,7 @@ app.get('/api/portfolio', (_req, res) => {
 /**
  * GET /api/portfolio/web
  * 公开接口（主站静态站点调用），返回主站期望的字段名结构
- * profile / strengthSection / experiences / works / contact
+ * profile / strengthSection / experiences / works / contact / settings
  */
 app.get('/api/portfolio/web', (_req, res) => {
   const data = getPortfolio()
@@ -168,17 +195,35 @@ app.get('/api/portfolio/web', (_req, res) => {
   res.json(toWebPortfolioData(data))
 })
 
+/** 允许保存的顶层字段白名单 */
+const ALLOWED_FIELDS = [
+  'basicInfo',
+  'advantages',
+  'projects',
+  'works',
+  'contact',
+  'seo',
+  'favicon',
+  'settings'
+]
+
 function handleSave(req: Request, res: Response) {
   const body = req.body
   if (!body || typeof body !== 'object' || Array.isArray(body)) {
     return res.status(400).json({ error: '请求体必须是 JSON 对象' })
   }
-  const required = ['basicInfo', 'advantages', 'projects', 'works', 'contact', 'seo', 'favicon']
-  const missing = required.filter((k) => !(k in body))
-  if (missing.length) {
-    return res.status(400).json({ error: '缺少字段: ' + missing.join(', ') })
+  // 只保留白名单内的字段，避免写入未知字段
+  const patch: Record<string, any> = {}
+  for (const k of ALLOWED_FIELDS) {
+    if (k in body) patch[k] = body[k]
   }
-  savePortfolio(body)
+  if (Object.keys(patch).length === 0) {
+    return res.status(400).json({ error: '请求体未包含任何有效字段' })
+  }
+  // 读取现有记录并与补丁合并，确保未提交的字段保持原值不被重置
+  const existing = getPortfolio() ?? DEFAULT_PORTFOLIO_DATA
+  const merged = deepMerge(existing, patch)
+  savePortfolio(merged)
   res.json({ ok: true, updatedAt: new Date().toISOString() })
 }
 

@@ -87,7 +87,9 @@ function handleLogout() {
         <div>
           <span class="text-lg font-semibold text-gray-800">作品管理后台</span>
           <a-tag v-if="isMock" size="small" class="ml-3" status="warning">mock 模式</a-tag>
-          <a-tag v-else size="small" class="ml-3" status="success">真实后端 · {{ API_BASE_URL }}</a-tag>
+          <a-tag v-else size="small" class="ml-3" status="success"
+            >真实后端 · {{ API_BASE_URL }}</a-tag
+          >
         </div>
         <a-dropdown>
           <a class="flex items-center gap-2 text-gray-600 hover:text-gray-900">

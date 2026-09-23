@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { Button, Message, Checkbox } from '@arco-design/web-vue'
+import { computed, ref, watch } from 'vue'
+import { Button, Message } from '@arco-design/web-vue'
 import { usePortfolioPage } from '@/composables/usePortfolioPage'
+import TagEditModal from '@/components/TagEditModal.vue'
 import type { WorkItem } from '@/types/portfolio'
 
 const { data, loading, error, saving, save } = usePortfolioPage()
@@ -27,9 +28,44 @@ function remove(id?: string) {
 function addMetric(item: WorkItem) {
   item.metrics?.push({ label: '', value: '' })
 }
-function addTag(item: WorkItem) {
-  item.tags?.push('')
+
+/** 标签编辑弹窗状态 */
+const tagModalVisible = ref(false)
+const tagModalItem = ref<WorkItem | null>(null)
+function openTagModal(item: WorkItem) {
+  tagModalItem.value = item
+  tagModalVisible.value = true
 }
+function onTagConfirm(tags: string[]) {
+  if (tagModalItem.value) tagModalItem.value.tags = tags
+}
+
+/** 作品模块可见性开关（默认隐藏，仅后台可配置，前台不显示该开关） */
+const worksVisible = ref(false)
+const settingsSaving = ref(false)
+async function handleToggleVisible(v: boolean | string | number) {
+  if (!data.value) return
+  const next = { worksVisible: v === true }
+  settingsSaving.value = true
+  try {
+    const ok = await save({ settings: next })
+    if (ok) {
+      worksVisible.value = next.worksVisible
+      Message.success(next.worksVisible ? '作品模块已设为可见' : '作品模块已隐藏')
+    }
+  } finally {
+    settingsSaving.value = false
+  }
+}
+
+// 数据加载后同步开关初值
+watch(
+  data,
+  (v) => {
+    if (v) worksVisible.value = v.settings?.worksVisible === true
+  },
+  { immediate: true }
+)
 
 async function handleSave() {
   if (!data.value) return
@@ -55,12 +91,30 @@ async function handleSave() {
       </div>
     </div>
 
+    <!-- 可见性控制：仅后台显示，前台不渲染此开关。默认隐藏，开启后前台才展示作品模块 -->
+    <a-card class="mb-4 page-card" :bordered="false">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="form-section-title mb-0">前台可见性</h3>
+          <p class="mt-1 text-xs text-gray-400">
+            控制「作品案例」模块是否在主站展示。默认隐藏，开启后主站才会渲染该屏。
+          </p>
+        </div>
+        <a-switch
+          :model-value="worksVisible"
+          :loading="settingsSaving"
+          checked-text="可见"
+          unchecked-text="隐藏"
+          @change="handleToggleVisible"
+        />
+      </div>
+    </a-card>
+
     <a-row :gutter="16">
       <a-col v-for="(item, idx) in list" :key="item.id ?? idx" :xs="24" :sm="12" :lg="8">
         <a-card class="mb-4 page-card" :bordered="false">
           <div class="flex gap-2">
             <a-input v-model="item.title" placeholder="标题" class="flex-1" />
-            <a-checkbox v-model="item.hidden" :un-checked-value="false" class="self-center">隐藏</a-checkbox>
             <a-button type="text" status="danger" size="mini" @click="remove(item.id)">删</a-button>
           </div>
           <div class="mt-2 flex gap-2">
@@ -71,7 +125,11 @@ async function handleSave() {
             <a-input v-model="item.imageUrl" placeholder="封面图 URL（可选）" />
           </div>
           <div class="mt-2">
-            <a-textarea v-model="item.description" :auto-size="{ minRows: 2, maxRows: 4 }" placeholder="描述" />
+            <a-textarea
+              v-model="item.description"
+              :auto-size="{ minRows: 2, maxRows: 4 }"
+              placeholder="描述"
+            />
           </div>
           <div class="mt-2">
             <a-input v-model="item.link" placeholder="外部链接（可选）" />
@@ -80,25 +138,48 @@ async function handleSave() {
             <div class="mb-1 text-xs text-gray-500">指标</div>
             <a-space direction="vertical" fill>
               <div v-for="(_, i) in item.metrics ?? []" :key="i" class="flex gap-2">
-                <a-input v-model="(item.metrics as any[])[i].label" placeholder="名称" class="flex-1" />
-                <a-input v-model="(item.metrics as any[])[i].value" placeholder="值" style="width: 110px" />
-                <a-button type="text" status="danger" size="mini" @click="(item.metrics as any[]).splice(i, 1)">×</a-button>
+                <a-input
+                  v-model="(item.metrics as any[])[i].label"
+                  placeholder="名称"
+                  class="flex-1"
+                />
+                <a-input
+                  v-model="(item.metrics as any[])[i].value"
+                  placeholder="值"
+                  style="width: 110px"
+                />
+                <a-button
+                  type="text"
+                  status="danger"
+                  size="mini"
+                  @click="(item.metrics as any[]).splice(i, 1)"
+                  >×</a-button
+                >
               </div>
             </a-space>
-            <a-button class="mt-1" type="text" size="mini" @click="addMetric(item)">+ 指标</a-button>
+            <a-button class="mt-1" type="text" size="mini" @click="addMetric(item)"
+              >+ 指标</a-button
+            >
           </div>
           <div class="mt-2">
-            <div class="mb-1 text-xs text-gray-500">标签</div>
-            <a-space direction="vertical" fill>
-              <div v-for="(_, i) in item.tags ?? []" :key="i" class="flex gap-2">
-                <a-input v-model="(item.tags as string[])[i]" placeholder="标签" class="flex-1" />
-                <a-button type="text" status="danger" size="mini" @click="(item.tags as string[]).splice(i, 1)">×</a-button>
-              </div>
-            </a-space>
-            <a-button class="mt-1" type="text" size="mini" @click="addTag(item)">+ 标签</a-button>
+            <div class="mb-1 flex items-center justify-between">
+              <span class="text-xs text-gray-500">标签</span>
+              <a-button type="text" size="mini" @click="openTagModal(item)">编辑标签</a-button>
+            </div>
+            <div v-if="(item.tags ?? []).length" class="flex flex-wrap gap-1">
+              <a-tag v-for="(t, i) in item.tags ?? []" :key="i" size="small">{{ t }}</a-tag>
+            </div>
+            <p v-else class="text-xs text-gray-400">暂无标签，点击"编辑标签"添加</p>
           </div>
         </a-card>
       </a-col>
     </a-row>
+
+    <TagEditModal
+      v-model:visible="tagModalVisible"
+      :tags="tagModalItem?.tags ?? []"
+      :title="`标签编辑 · ${tagModalItem?.title || ''}`"
+      @confirm="onTagConfirm"
+    />
   </template>
 </template>

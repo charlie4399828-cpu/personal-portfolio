@@ -34,7 +34,7 @@ export interface Strength {
 export interface Skill {
   name: string
   percent: number
-  tags?: string[]
+  tag?: string
 }
 
 /** 第二屏：优势模块聚合 */
@@ -79,6 +79,12 @@ export interface ContactInfo {
   icp?: string
 }
 
+/** 站点级设置：控制各模块可见性等 */
+export interface SiteSettings {
+  /** 作品案例模块是否可见（默认 false 隐藏，需后台显式开启） */
+  worksVisible?: boolean
+}
+
 /** 站点全部内容：接口唯一返回结构（后端按此结构返回 JSON 即可） */
 export interface PortfolioData {
   profile: Profile
@@ -86,4 +92,5 @@ export interface PortfolioData {
   experiences: ProjectExperience[]
   works: WorkItem[]
   contact: ContactInfo
+  settings?: SiteSettings
 }

@@ -42,10 +42,7 @@ export interface AdvantageItem {
   group: 'strength' | 'skill'
   /** group=skill 时必填 */
   percent?: number
-  /** 标签列表（可编辑多项） */
-  tags?: string[]
-  /** 是否在前端隐藏 */
-  hidden?: boolean
+  tag?: string
 }
 
 /** 项目经历（对应前端 ProjectExperience，后台字段名统一） */
@@ -58,8 +55,6 @@ export interface ProjectItem {
   achievements?: string[]
   tags?: string[]
   coverUrl?: string
-  /** 是否在前端隐藏 */
-  hidden?: boolean
 }
 
 /** 作品案例 */
@@ -73,8 +68,6 @@ export interface WorkItem {
   metrics?: Metric[]
   tags?: string[]
   link?: string
-  /** 是否在前端隐藏 */
-  hidden?: boolean
 }
 
 /** 联系方式 */
@@ -106,6 +99,12 @@ export interface FaviconConfig {
   android512Url?: string
 }
 
+/** 站点级设置：控制前台各模块可见性等 */
+export interface SiteSettings {
+  /** 作品案例模块是否在前台可见（默认 false 隐藏） */
+  worksVisible?: boolean
+}
+
 /** 后台完整站点数据（后端 API 返回结构） */
 export interface PortfolioData {
   basicInfo: BasicInfo
@@ -115,4 +114,5 @@ export interface PortfolioData {
   contact: ContactInfo
   seo: SeoConfig
   favicon: FaviconConfig
+  settings?: SiteSettings
 }

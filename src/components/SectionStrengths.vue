@@ -43,12 +43,7 @@ defineProps<{ section: StrengthSection }>()
               <div class="mb-1.5 flex items-center justify-between">
                 <span class="flex items-center gap-2 text-sm text-gray-700">
                   {{ skill.name }}
-                  <a-tag
-                    v-for="t in skill.tags ?? []"
-                    :key="t"
-                    size="small"
-                    class="brand-tag"
-                  >{{ t }}</a-tag>
+                  <a-tag v-if="skill.tag" size="small" class="brand-tag">{{ skill.tag }}</a-tag>
                 </span>
                 <span class="text-xs font-semibold text-brand-500">{{ skill.percent }}%</span>
               </div>

@@ -50,13 +50,17 @@ async function handleSave() {
       <div class="mt-3">
         <div class="mb-1 text-sm text-gray-500">Title（50–60 字符为宜）</div>
         <a-input v-model="form.title" />
-        <div class="mt-1 text-right text-xs text-gray-400">{{ (form.title || '').length }} chars</div>
+        <div class="mt-1 text-right text-xs text-gray-400">
+          {{ (form.title || '').length }} chars
+        </div>
       </div>
 
       <div class="mt-3">
         <div class="mb-1 text-sm text-gray-500">Description（140–160 字符为宜）</div>
         <a-textarea v-model="form.description" :auto-size="{ minRows: 2, maxRows: 4 }" />
-        <div class="mt-1 text-right text-xs text-gray-400">{{ (form.description || '').length }} chars</div>
+        <div class="mt-1 text-right text-xs text-gray-400">
+          {{ (form.description || '').length }} chars
+        </div>
       </div>
 
       <div class="mt-3">
@@ -71,7 +75,8 @@ async function handleSave() {
     </a-card>
 
     <a-alert class="mt-4" type="warning">
-      SEO 配置保存在后台，前端 index.html 为静态模板。后端需在部署时把这些字段写入 index.html，或提供独立 SEO 接口。
+      SEO 配置保存在后台，前端 index.html 为静态模板。后端需在部署时把这些字段写入
+      index.html，或提供独立 SEO 接口。
     </a-alert>
   </template>
 </template>

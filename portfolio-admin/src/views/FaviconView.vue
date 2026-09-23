@@ -64,7 +64,8 @@ async function handleSave() {
     </a-card>
 
     <a-alert class="mt-4" type="warning">
-      当前项目采用"后台写入 → 前端 index.html 部署"的静态链路：保存后需重新构建部署才能更新 favicon 引用；若后端提供动态 SEO 接口，则可实时生效。
+      当前项目采用"后台写入 → 前端 index.html 部署"的静态链路：保存后需重新构建部署才能更新 favicon
+      引用；若后端提供动态 SEO 接口，则可实时生效。
     </a-alert>
   </template>
 </template>

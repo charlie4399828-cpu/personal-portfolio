@@ -53,9 +53,7 @@ instance.interceptors.response.use(
       }
       return Promise.reject(new ApiError('登录已过期，请重新登录', 401))
     }
-    const message = status
-      ? `请求失败（HTTP ${status}）`
-      : '网络异常或接口不可达'
+    const message = status ? `请求失败（HTTP ${status}）` : '网络异常或接口不可达'
     return Promise.reject(new ApiError(message, status))
   }
 )
@@ -73,7 +71,11 @@ export async function put<T>(url: string, data: unknown, config?: AxiosRequestCo
 }
 
 /** 统一 POST */
-export async function post<T>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T> {
+export async function post<T>(
+  url: string,
+  data?: unknown,
+  config?: AxiosRequestConfig
+): Promise<T> {
   const res = await instance.post<T>(url, data, config)
   return res.data
 }

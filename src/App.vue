@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { usePortfolioData } from '@/composables/usePortfolioData'
 import SectionHero from '@/components/SectionHero.vue'
 import SectionStrengths from '@/components/SectionStrengths.vue'
@@ -8,18 +9,27 @@ import SectionFooter from '@/components/SectionFooter.vue'
 
 const { data, loading, error, reload } = usePortfolioData()
 
+// 作品案例模块可见性：后台 settings.worksVisible 控制，默认隐藏
+const worksVisible = computed(() => data.value?.settings?.worksVisible === true)
+
 // fullpage.js 配置：右侧圆点导航 + 平滑滚动 + 屏内溢出滚动（移动端内容超出一屏时可滑动）
-const fpOptions = {
-  licenseKey: 'gplv3-license',
-  autoScrolling: true,
-  scrollingSpeed: 750,
-  easingcss3: 'cubic-bezier(0.22, 0.61, 0.36, 1)',
-  navigation: true,
-  navigationPosition: 'right',
-  navigationTooltips: ['首页', '优势', '经历', '作品', '联系'],
-  scrollOverflow: true,
-  credits: { enabled: false }
-}
+// 根据作品模块可见性动态调整导航锚点，保持前后一致
+const fpOptions = computed(() => {
+  const tooltips = worksVisible.value
+    ? ['首页', '优势', '经历', '作品', '联系']
+    : ['首页', '优势', '经历', '联系']
+  return {
+    licenseKey: 'gplv3-license',
+    autoScrolling: true,
+    scrollingSpeed: 750,
+    easingcss3: 'cubic-bezier(0.22, 0.61, 0.36, 1)',
+    navigation: true,
+    navigationPosition: 'right',
+    navigationTooltips: tooltips,
+    scrollOverflow: true,
+    credits: { enabled: false }
+  }
+})
 </script>
 
 <template>
@@ -52,7 +62,7 @@ const fpOptions = {
     <div class="section">
       <SectionProjects :experiences="data.experiences" />
     </div>
-    <div class="section section-alt">
+    <div v-if="worksVisible" class="section section-alt">
       <SectionWorks :works="data.works" />
     </div>
     <div class="section section-dark">

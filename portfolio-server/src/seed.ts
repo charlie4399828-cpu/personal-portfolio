@@ -22,11 +22,42 @@ export const DEFAULT_PORTFOLIO_DATA = {
     ]
   },
   advantages: [
-    { id: 'a1', group: 'strength', title: '电商大促实战', description: '主导多轮双 11 / 618 大促会场页研发，页面稳定支撑亿级 PV。', icon: 'icon-thunderbolt' },
-    { id: 'a2', group: 'strength', title: '性能与体验优化', description: '首屏秒开、资源按需加载与动效降级策略，核心页面 LCP 降至 1.5s 以内。', icon: 'icon-fire' },
-    { id: 'a3', group: 'strength', title: '数据驱动增长', description: '搭建埋点体系与 A/B 实验闭环，用数据量化每一次改版的转化收益。', icon: 'icon-bar-chart' },
-    { id: 'a4', group: 'strength', title: '组件化与工程化', description: '沉淀电商营销组件库与 CI/CD 流水线，团队研发效率提升 40%。', icon: 'icon-code' },
-    { id: 's1', group: 'skill', title: 'Vue3 / TypeScript', description: '', percent: 95, tags: ['主力栈'] },
+    {
+      id: 'a1',
+      group: 'strength',
+      title: '电商大促实战',
+      description: '主导多轮双 11 / 618 大促会场页研发，页面稳定支撑亿级 PV。',
+      icon: 'icon-thunderbolt'
+    },
+    {
+      id: 'a2',
+      group: 'strength',
+      title: '性能与体验优化',
+      description: '首屏秒开、资源按需加载与动效降级策略，核心页面 LCP 降至 1.5s 以内。',
+      icon: 'icon-fire'
+    },
+    {
+      id: 'a3',
+      group: 'strength',
+      title: '数据驱动增长',
+      description: '搭建埋点体系与 A/B 实验闭环，用数据量化每一次改版的转化收益。',
+      icon: 'icon-bar-chart'
+    },
+    {
+      id: 'a4',
+      group: 'strength',
+      title: '组件化与工程化',
+      description: '沉淀电商营销组件库与 CI/CD 流水线，团队研发效率提升 40%。',
+      icon: 'icon-code'
+    },
+    {
+      id: 's1',
+      group: 'skill',
+      title: 'Vue3 / TypeScript',
+      description: '',
+      percent: 95,
+      tag: '主力栈'
+    },
     { id: 's2', group: 'skill', title: '电商营销页面架构', description: '', percent: 92 },
     { id: 's3', group: 'skill', title: '前端工程化 / 性能优化', description: '', percent: 88 },
     { id: 's4', group: 'skill', title: '数据可视化', description: '', percent: 85 },
@@ -39,7 +70,11 @@ export const DEFAULT_PORTFOLIO_DATA = {
       role: '高级前端开发工程师',
       name: '某头部电商平台',
       description: '隶属大促营销技术团队，负责大促会场、互动玩法与营销组件体系的前端架构与落地。',
-      achievements: ['主导双 11 主会场重构，首屏性能提升 58%', '沉淀营销组件库 30+ 组件', '推动前端监控体系建设'],
+      achievements: [
+        '主导双 11 主会场重构，首屏性能提升 58%',
+        '沉淀营销组件库 30+ 组件',
+        '推动前端监控体系建设'
+      ],
       tags: ['Vue3', '大促会场', '组件库', '性能优化'],
       coverUrl: ''
     },
@@ -65,10 +100,62 @@ export const DEFAULT_PORTFOLIO_DATA = {
     }
   ],
   works: [
-    { id: 'w1', title: '双 11 主会场', subtitle: '亿级 PV 互动营销页面', description: '面向大促主会场的模块化页面方案。', imageUrl: '', themeColor: '#F25516', metrics: [{ label: '页面 PV', value: '1.2 亿' }, { label: '转化率提升', value: '+23%' }], tags: ['营销页面', '高并发'], link: '' },
-    { id: 'w2', title: '实时交易数据大屏', subtitle: '电商经营决策可视化', description: '大促作战室秒级数据刷新。', imageUrl: '', themeColor: '#2F54EB', metrics: [{ label: '图表组件', value: '20+' }, { label: '数据刷新', value: '秒级' }], tags: ['数据可视化', '大屏'], link: '' },
-    { id: 'w3', title: '会员营销中台', subtitle: '千人千面的权益触达', description: '会员分层运营前端方案。', imageUrl: '', themeColor: '#722ED1', metrics: [{ label: '覆盖会员', value: '3000 万' }, { label: '活动配置效率', value: '+70%' }], tags: ['中台', '会员运营'], link: '' },
-    { id: 'w4', title: '跨境商城小程序', subtitle: '轻量流畅的购物体验', description: '弱网与低端机深度优化。', imageUrl: '', themeColor: '#0FA98E', metrics: [{ label: '日活用户', value: '50 万' }, { label: '启动耗时', value: '-38%' }], tags: ['小程序', '跨境电商'], link: '' }
+    {
+      id: 'w1',
+      title: '双 11 主会场',
+      subtitle: '亿级 PV 互动营销页面',
+      description: '面向大促主会场的模块化页面方案。',
+      imageUrl: '',
+      themeColor: '#F25516',
+      metrics: [
+        { label: '页面 PV', value: '1.2 亿' },
+        { label: '转化率提升', value: '+23%' }
+      ],
+      tags: ['营销页面', '高并发'],
+      link: ''
+    },
+    {
+      id: 'w2',
+      title: '实时交易数据大屏',
+      subtitle: '电商经营决策可视化',
+      description: '大促作战室秒级数据刷新。',
+      imageUrl: '',
+      themeColor: '#2F54EB',
+      metrics: [
+        { label: '图表组件', value: '20+' },
+        { label: '数据刷新', value: '秒级' }
+      ],
+      tags: ['数据可视化', '大屏'],
+      link: ''
+    },
+    {
+      id: 'w3',
+      title: '会员营销中台',
+      subtitle: '千人千面的权益触达',
+      description: '会员分层运营前端方案。',
+      imageUrl: '',
+      themeColor: '#722ED1',
+      metrics: [
+        { label: '覆盖会员', value: '3000 万' },
+        { label: '活动配置效率', value: '+70%' }
+      ],
+      tags: ['中台', '会员运营'],
+      link: ''
+    },
+    {
+      id: 'w4',
+      title: '跨境商城小程序',
+      subtitle: '轻量流畅的购物体验',
+      description: '弱网与低端机深度优化。',
+      imageUrl: '',
+      themeColor: '#0FA98E',
+      metrics: [
+        { label: '日活用户', value: '50 万' },
+        { label: '启动耗时', value: '-38%' }
+      ],
+      tags: ['小程序', '跨境电商'],
+      link: ''
+    }
   ],
   contact: {
     email: 'hello@example.com',
@@ -86,7 +173,8 @@ export const DEFAULT_PORTFOLIO_DATA = {
   seo: {
     siteName: '陈以默 · 个人作品集',
     title: '陈以默 · 互联网+电商前端开发工程师 | 个人作品集',
-    description: '陈以默的个人作品集：6 年互联网电商前端经验，专注大促营销会场、性能优化、数据驱动增长与电商中台。',
+    description:
+      '陈以默的个人作品集：6 年互联网电商前端经验，专注大促营销会场、性能优化、数据驱动增长与电商中台。',
     keywords: ['个人作品集', '前端开发工程师', '互联网', '电商前端', 'Vue3', 'TypeScript'],
     author: '陈以默',
     ogImage: './og-image.jpg'
@@ -96,5 +184,8 @@ export const DEFAULT_PORTFOLIO_DATA = {
     appleIconUrl: './apple-touch-icon.png',
     android192Url: './android-chrome-192x192.png',
     android512Url: './android-chrome-512x512.png'
+  },
+  settings: {
+    worksVisible: false
   }
 }

@@ -40,7 +40,10 @@ async function submit() {
   >
     <a-card class="w-[420px] rounded-2xl shadow-xl" :bordered="false">
       <div class="mb-6 text-center">
-        <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-xl text-xl font-bold text-white" style="background: linear-gradient(135deg, #ff9049, #f25516)">
+        <div
+          class="mx-auto flex h-14 w-14 items-center justify-center rounded-xl text-xl font-bold text-white"
+          style="background: linear-gradient(135deg, #ff9049, #f25516)"
+        >
           A
         </div>
         <h1 class="mt-3 text-xl font-semibold text-gray-900">作品集管理后台</h1>
@@ -58,14 +61,12 @@ async function submit() {
             <template #prefix><icon-lock /></template>
           </a-input-password>
         </a-form-item>
-        <a-button type="primary" long :loading="loading" html-type="submit">
-          登 录
-        </a-button>
+        <a-button type="primary" long :loading="loading" html-type="submit"> 登 录 </a-button>
       </a-form>
 
       <div v-if="isMock" class="mt-4 rounded-lg bg-gray-50 px-3 py-2 text-[11px] text-gray-500">
-        <span class="font-semibold text-brand-500">Mock 模式</span>：账号 {{ MOCK_CREDENTIALS.username }}
-        / {{ MOCK_CREDENTIALS.password }}（可在 .env 修改）
+        <span class="font-semibold text-brand-500">Mock 模式</span>：账号
+        {{ MOCK_CREDENTIALS.username }} / {{ MOCK_CREDENTIALS.password }}（可在 .env 修改）
       </div>
       <div v-else class="mt-4 rounded-lg bg-green-50 px-3 py-2 text-[11px] text-green-600">
         真实后端模式：{{ API_BASE_URL }}

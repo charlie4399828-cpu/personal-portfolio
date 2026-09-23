@@ -76,17 +76,25 @@ async function handleSave() {
 
     <a-card class="mt-4 page-card" :bordered="false">
       <div class="mb-3 flex items-center justify-between">
-          <h3 class="form-section-title mb-0">社交链接</h3>
-          <a-button type="outline" size="small" @click="addSocial">+ 添加一行</a-button>
+        <h3 class="form-section-title mb-0">社交链接</h3>
+        <a-button type="outline" size="small" @click="addSocial">+ 添加一行</a-button>
+      </div>
+      <a-space direction="vertical" fill>
+        <div v-for="(_, i) in form.socials" :key="i" class="flex gap-2">
+          <a-input
+            v-model="(form.socials as any[])[i].label"
+            placeholder="名称"
+            style="width: 130px"
+          />
+          <a-input v-model="(form.socials as any[])[i].url" placeholder="URL" class="flex-1" />
+          <a-input
+            v-model="(form.socials as any[])[i].icon"
+            placeholder="图标名"
+            style="width: 140px"
+          />
+          <a-button type="text" status="danger" @click="removeSocial(i)">删除</a-button>
         </div>
-        <a-space direction="vertical" fill>
-          <div v-for="(_, i) in form.socials" :key="i" class="flex gap-2">
-            <a-input v-model="(form.socials as any[])[i].label" placeholder="名称" style="width: 130px" />
-            <a-input v-model="(form.socials as any[])[i].url" placeholder="URL" class="flex-1" />
-            <a-input v-model="(form.socials as any[])[i].icon" placeholder="图标名" style="width: 140px" />
-            <a-button type="text" status="danger" @click="removeSocial(i)">删除</a-button>
-          </div>
-        </a-space>
+      </a-space>
     </a-card>
   </template>
 </template>

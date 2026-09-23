@@ -40,7 +40,7 @@
       }
     ],
     "skills": [
-      { "name": "Vue3 / TypeScript", "percent": 95, "tags": ["主力栈"] },
+      { "name": "Vue3 / TypeScript", "percent": 95, "tag": "主力栈" },
       { "name": "电商营销页面架构", "percent": 92 },
       { "name": "前端工程化 / 性能优化", "percent": 88 },
       { "name": "数据可视化", "percent": 85 },
@@ -145,5 +145,8 @@
     "openSourceUrl": "https://github.com/yourname/portfolio",
     "copyright": "© 2026 陈以默 · 本站为开源静态站点，全部内容由接口驱动渲染",
     "icp": ""
+  },
+  "settings": {
+    "worksVisible": false
   }
 }

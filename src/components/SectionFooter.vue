@@ -20,9 +20,7 @@ defineProps<{ contact: ContactInfo }>()
         <span v-if="contact.wechat" class="contact-chip">
           <icon-message /> 微信：{{ contact.wechat }}
         </span>
-        <span v-if="contact.phone" class="contact-chip">
-          <icon-phone /> {{ contact.phone }}
-        </span>
+        <span v-if="contact.phone" class="contact-chip"> <icon-phone /> {{ contact.phone }} </span>
       </div>
 
       <div class="reveal reveal-d3 mt-6 flex flex-wrap justify-center gap-3">

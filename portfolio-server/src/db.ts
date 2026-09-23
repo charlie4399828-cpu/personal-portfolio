@@ -81,30 +81,14 @@ seedAdmin()
 seedPortfolio()
 console.log('[db] initialized')
 
-/**
- * 数据归一化：兼容历史字段
- * - 旧版技能用 tag: string，新版统一为 tags: string[]
- * 读取和保存时都执行，保证 admin 端拿到的始终是 tags 数组
- */
-function normalizePortfolio(data: any): any {
-  if (!data || typeof data !== 'object') return data
-  const advantages = Array.isArray(data.advantages) ? data.advantages : []
-  advantages.forEach((a: any) => {
-    if (a && typeof a === 'object') {
-      if (!Array.isArray(a.tags)) {
-        const legacy = typeof a.tag === 'string' ? a.tag.trim() : ''
-        a.tags = legacy ? [legacy] : []
-      }
-      delete a.tag
-    }
-  })
-  return data
-}
-
 /** ---- 导出便捷函数 ---- */
 
-export function getAdminByUsername(username: string): { id: number; username: string; password_hash: string } | undefined {
-  return db.prepare('SELECT id, username, password_hash FROM admin_users WHERE username = ?').get(username) as any
+export function getAdminByUsername(
+  username: string
+): { id: number; username: string; password_hash: string } | undefined {
+  return db
+    .prepare('SELECT id, username, password_hash FROM admin_users WHERE username = ?')
+    .get(username) as any
 }
 
 export function verifyAdminPassword(plain: string, hash: string): boolean {
@@ -119,16 +103,15 @@ export function getPortfolio(): any | null {
   const row = db.prepare('SELECT data_json FROM portfolio_data WHERE id = 1').get() as any
   if (!row) return null
   try {
-    return normalizePortfolio(JSON.parse(row.data_json))
+    return JSON.parse(row.data_json)
   } catch {
     return null
   }
 }
 
 export function savePortfolio(data: unknown) {
-  const normalized = normalizePortfolio(data)
   db.prepare(
     'INSERT INTO portfolio_data (id, data_json, updated_at) VALUES (1, ?, CURRENT_TIMESTAMP) ' +
       'ON CONFLICT(id) DO UPDATE SET data_json = excluded.data_json, updated_at = CURRENT_TIMESTAMP'
-  ).run(JSON.stringify(normalized))
+  ).run(JSON.stringify(data))
 }
